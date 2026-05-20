@@ -2,12 +2,29 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: graylog-config
-  namespace: graylog
+  namespace: testgray1010mn
 data:
-  GRAYLOG_HTTP_EXTERNAL_URI: "http://localhost:9000/"
-  GRAYLOG_HTTP_BIND_ADDRESS: "0.0.0.0:9000"
-  GRAYLOG_MONGODB_URI: "mongodb://mongodb-service:27017/graylog"
-  GRAYLOG_ELASTICSEARCH_HOSTS: "http://opensearch-service:9200"
-  GRAYLOG_PASSWORD_SECRET: "g9j8c83bfuf4n"
-  GRAYLOG_ROOT_PASSWORD_SHA2: "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
-  GRAYLOG_TRANSPORT_EMAIL_ENABLED: "false"
+  graylog.conf: |
+    # HTTP bind address
+    http_bind_address = 0.0.0.0:9000
+    
+    # MongoDB URI
+    mongodb_uri = mongodb://mongodb-service:27017/graylog
+    
+    # OpenSearch hosts
+    elasticsearch_hosts = http://opensearch-service:9200
+    
+    # Security
+    password_secret = somepasswordpepper
+    root_password_sha2 = 8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
+    
+    # Directories
+    plugin_dir = /usr/share/graylog/plugin
+    message_journal_dir = /usr/share/graylog/data/journal
+    
+    # Configuration
+    root_timezone = UTC
+    message_journal_enabled = true
+    rotation_strategy = count
+    retention_strategy = delete
+    elasticsearch_max_number_of_indices = 20
