@@ -19,6 +19,7 @@ data:
     root_password_sha2 = 8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
     
     # Directories
+    data_dir = /usr/share/graylog/data
     plugin_dir = /usr/share/graylog/plugin
     message_journal_dir = /usr/share/graylog/data/journal
     
@@ -28,3 +29,6 @@ data:
     rotation_strategy = count
     retention_strategy = delete
     elasticsearch_max_number_of_indices = 20
+    
+    # Node ID file
+    node_id_file = /usr/share/graylog/data/node-id
