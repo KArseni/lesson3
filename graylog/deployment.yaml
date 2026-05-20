@@ -2,11 +2,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: graylog
-  namespace: graylog
+  namespace: testgray1010mn
   labels:
     app: graylog
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: graylog
@@ -26,9 +26,16 @@ spec:
           protocol: UDP
         - containerPort: 1514
           name: syslog
-        envFrom:
-        - configMapRef:
-            name: graylog-config
+        env:
+        - name: GRAYLOG_HTTP_EXTERNAL_URI
+          value: "http://localhost:9000/"
+        volumeMounts:
+        - name: graylog-config
+          mountPath: /usr/share/graylog/data/config/graylog.conf
+          subPath: graylog.conf
+          readOnly: true
+        - name: graylog-data
+          mountPath: /usr/share/graylog/data/journal
         resources:
           requests:
             memory: "1Gi"
@@ -36,9 +43,9 @@ spec:
           limits:
             memory: "2Gi"
             cpu: "1000m"
-        volumeMounts:
-        - name: graylog-data
-          mountPath: /usr/share/graylog/data
       volumes:
+      - name: graylog-config
+        configMap:
+          name: graylog-config
       - name: graylog-data
         emptyDir: {}
