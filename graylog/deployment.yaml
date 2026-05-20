@@ -18,6 +18,9 @@ spec:
       containers:
       - name: graylog
         image: graylog/graylog:6.1
+        securityContext:
+          runAsUser: 0
+          runAsNonRoot: false
         ports:
         - containerPort: 9000
           name: web
@@ -29,13 +32,17 @@ spec:
         env:
         - name: GRAYLOG_HTTP_EXTERNAL_URI
           value: "http://localhost:9000/"
+        - name: GRAYLOG_DATA_DIR
+          value: "/usr/share/graylog/data"
+        - name: GRAYLOG_MESSAGE_JOURNAL_DIR
+          value: "/usr/share/graylog/data/journal"
         volumeMounts:
         - name: graylog-config
           mountPath: /usr/share/graylog/data/config/graylog.conf
           subPath: graylog.conf
           readOnly: true
         - name: graylog-data
-          mountPath: /usr/share/graylog/data/journal
+          mountPath: /usr/share/graylog/data
         resources:
           requests:
             memory: "1Gi"
