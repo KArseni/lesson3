@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: graylog-service
+  namespace: graylog
+spec:
+  selector:
+    app: graylog
+  ports:
+  - name: web
+    port: 9000
+    targetPort: 9000
+    nodePort: 30900
+  - name: gelf
+    port: 12201
+    targetPort: 12201
+    protocol: UDP
+    nodePort: 31201
+  - name: syslog
+    port: 1514
+    targetPort: 1514
+    nodePort: 31514
+  type: NodePort
